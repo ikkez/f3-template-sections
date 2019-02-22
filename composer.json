@@ -1,0 +1,13 @@
+{
+    "name": "ikkez/f3-template-sections",
+    "description": "Sections support for the F3 Template engine",
+    "keywords": ["F3","fatfree","template","section"],
+    "homepage": "https://github.com/ikkez/f3-template-sections",
+    "license": "GPL-3.0",
+    "require": {
+        "ikkez/f3-template-directives": "^1.0"
+    },
+    "autoload": {
+		"classmap": ["src/"]
+    }
+}
