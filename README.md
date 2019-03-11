@@ -100,9 +100,10 @@ Attributes:
 *  `id`  
 	Alias to `section`, but the `id` attribute will be visible in the final markup.
 *	`tag`  
-	The tag-element name of the final section. Default: `section`.
+	The tag-element name of the final section. Default: `section`.  
+	When you set `tag="FALSE"`, the section content is not wrapped into any element.
 
-every other attributes are just passed to the final tag element.
+Any other attributes are just passed to the final tag element.
 
 ### inject
 
@@ -115,7 +116,7 @@ Attributes:
 *  `mode`  
 	The injection mode for content:  
 	**overwrite** (default): replaces the existing content in the section  
-	**append**: adds content after the existing content
+	**append**: adds content after the existing content  
 	**prepend**: adds content before the existing content
 
 
