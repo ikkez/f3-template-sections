@@ -7,11 +7,11 @@
  *	compliance with the license. Any of the license terms and conditions
  *	can be waived if you get permission from the copyright holder.
  *
- *	Copyright (c) 2019 ~ ikkez
+ *	Copyright (c) 2022 ~ ikkez
  *	Christian Knuth <ikkez0n3@gmail.com>
  *
- *	@version: 1.0.0
- *	@date: 28.01.2019
+ *	@version: 1.1.0
+ *	@date: 24.08.2022
  *
  */
 
@@ -62,9 +62,9 @@ class Section extends \Template\TagHandler {
 			foreach($f3->get('template_sections') as $key=>$el)
 				if (preg_match('<!--section:'.$key.'-->',$data)) {
 					$tag=$obj->tmpl->resolve($el['content']);
-				if (strtoupper($el['tag']) !== 'FALSE')
-					$tag='<'.$el['tag'].' '.$obj->resolveParams($el['attr']).'>'
-						.$tag.'</'.$el['tag'].'>';
+					if (strtoupper($el['tag']) !== 'FALSE')
+						$tag='<'.$el['tag'].' '.$obj->resolveParams($el['attr']).'>'
+							.$tag.'</'.$el['tag'].'>';
 					$data = preg_replace('/<!--section:'.$key.'-->(.*)<!--\/section-->/i',$tag, $data, 1);
 				}
 			return $data;

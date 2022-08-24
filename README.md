@@ -87,6 +87,29 @@ By default the content in the section is replaced upon inject. If you wish, you 
 You can also use `prepend` as inject mode. 
 
 
+### Rendering locally
+
+You can switch the model to use local variables instead of rendering the content in the injected section. This is useful when you iterate over an array of data within a `<repeat>` block.
+
+```html
+<F3:contents id="modals" tag="FALSE" />
+
+<div class="slider">
+	<ul>
+	<F3:repeat group="{{ @items }}" value="{{ @item }}">
+		<li>
+			{{@item.content}}
+			<a href="#modal-{{@item.id}}">{{@item.title}}</a>
+			<F3:inject id="modals" mode="append" local>
+				<div class="modal" id="modal-{{@item.id}}">
+					{{@item.modal}}
+				</div>
+			</F3:inject>
+		</li>
+	</F3:repeat>
+	</ul>
+</div>
+```
 ## API
 
 
@@ -118,7 +141,8 @@ Attributes:
 	**overwrite** (default): replaces the existing content in the section  
 	**append**: adds content after the existing content  
 	**prepend**: adds content before the existing content
-
+*  `local`  
+	Render element locally with existing variables first
 
 
 ## Licence

@@ -8,17 +8,26 @@
  *	compliance with the license. Any of the license terms and conditions
  *	can be waived if you get permission from the copyright holder.
  *
- *	Copyright (c) 2019 ~ ikkez
+ *	Copyright (c) 2022 ~ ikkez
  *	Christian Knuth <ikkez0n3@gmail.com>
  *
- *	@version: 1.0.0
- *	@date: 28.01.2019
+ *	@version: 1.1.0
+ *	@date: 24.08.2022
  *
  */
 
 namespace Template\Tags;
 
 class Inject extends \Template\TagHandler {
+
+	function process($node) {
+		if (isset($node['@attrib'])) {
+			$attr = (array) $node['@attrib'];
+			unset($node['@attrib']);
+		} else
+			$attr=[];
+		return $this->build($attr,$node);
+	}
 
 	/**
 	 * build tag string
@@ -36,17 +45,23 @@ class Inject extends \Template\TagHandler {
 			return '';
 		}
 		$mode = isset($attr['mode']) ? $attr['mode'] : 'overwrite';
+
+		if (array_key_exists('local', $attr)) {
+			$content = '$this->resolve('.var_export($content,true).', get_defined_vars(), 0, FALSE, FALSE)';
+		} else {
+			$content = var_export($this->resolveContent($content),true);
+		}
 		switch ($mode) {
 			case 'prepend':
-				$out = '$this->fw->set(\'template_sections.'.$id.'.content\','.var_export($content,true)
+				$out = '$this->fw->set(\'template_sections.'.$id.'.content\','.$content
 					.'.$this->fw->get(\'template_sections.'.$id.'.content\')'.');';
 				break;
 			case 'append':
-				$out = '$this->fw->concat(\'template_sections.'.$id.'.content\','.var_export($content,true).');';
+				$out = '$this->fw->concat(\'template_sections.'.$id.'.content\','.$content.');';
 				break;
 			case 'overwrite':
 			default:
-				$out = '$this->fw->set(\'template_sections.'.$id.'.content\','.var_export($content,true).');';
+				$out = '$this->fw->set(\'template_sections.'.$id.'.content\','.$content.');';
 				break;
 		}
 		if (isset($attr['tag']))
